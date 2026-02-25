@@ -3,6 +3,7 @@ import SwiftUI
 struct SplashView: View {
     
     @EnvironmentObject var userState: UserStateManager
+    @EnvironmentObject var router: NavigationRouter
     
     @State private var showIcon = false
     @State private var showTitle = false
@@ -166,6 +167,8 @@ struct SplashView: View {
                 NavigationStack {
                     HomeView()
                 }
+                .preferredColorScheme(.dark)
+                .id(router.navigationID)
             } else {
                 OnBoardingView()
             }

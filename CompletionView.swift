@@ -3,7 +3,7 @@ import SwiftUI
 struct CompletionView: View {
     
     @EnvironmentObject var progress: ProgressManager
-    @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var router: NavigationRouter
     
     let scenario: String
     let reflection: String
@@ -85,7 +85,7 @@ struct CompletionView: View {
                     .buttonStyle(MainButton())
                     
                     Button("Back to Home") {
-                        dismiss()
+                        router.popToRoot()
                     }
                     .font(.headline)
                     .foregroundStyle(Color.safeSubtext)

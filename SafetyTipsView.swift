@@ -74,19 +74,6 @@ struct SafetyTipsView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 16) {
                     
-                    // Header
-                    VStack(spacing: 6) {
-                        Text("Safety Tips")
-                            .font(.system(size: 28, weight: .bold, design: .rounded))
-                            .foregroundStyle(Color.safeText)
-                        
-                        Text("Quick reference for staying safe")
-                            .font(.subheadline)
-                            .foregroundStyle(Color.safeSubtext)
-                    }
-                    .padding(.top, 10)
-                    .padding(.bottom, 6)
-                    
                     // Categories
                     ForEach(categories, id: \.title) { category in
                         categoryCard(category)
@@ -97,6 +84,8 @@ struct SafetyTipsView: View {
                 .padding(.horizontal, 20)
             }
         }
+        .navigationTitle("Safety Tips")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     private func categoryCard(_ category: (icon: String, title: String, color: Color, tips: [String])) -> some View {

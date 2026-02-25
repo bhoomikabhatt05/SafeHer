@@ -16,12 +16,6 @@ struct SafeProgressView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 28) {
                     
-                    // Header
-                    Text("Your Progress")
-                        .font(.system(size: 28, weight: .bold, design: .rounded))
-                        .foregroundStyle(Color.safeText)
-                        .padding(.top, 10)
-                    
                     // Progress Ring
                     ZStack {
                         Circle()
@@ -108,6 +102,8 @@ struct SafeProgressView: View {
                 }
             }
         }
+        .navigationTitle("Your Progress")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             withAnimation(.easeOut(duration: 1.2).delay(0.3)) {
                 animateRing = true

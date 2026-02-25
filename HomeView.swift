@@ -17,24 +17,8 @@ struct HomeView: View {
     }
     
     var body: some View {
-        ZStack {
-            Color.safeBackground.ignoresSafeArea()
-            
-            // Background gradient orb
-            Circle()
-                .fill(
-                    RadialGradient(
-                        colors: [Color.safeAccent.opacity(0.08), Color.clear],
-                        center: .center,
-                        startRadius: 50,
-                        endRadius: 300
-                    )
-                )
-                .frame(width: 500, height: 500)
-                .offset(y: -100)
-            
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 20) {
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 20) {
                     
                     // Header
                     HStack(spacing: 12) {
@@ -75,7 +59,6 @@ struct HomeView: View {
                             .accessibilityLabel("\(progress.currentStreak) day streak")
                         }
                     }
-                    .padding(.horizontal, 24)
                     .padding(.top, 10)
                     
                     // Affirmation Card
@@ -93,10 +76,10 @@ struct HomeView: View {
                         Text(message)
                             .font(.system(size: 17, weight: .medium, design: .rounded))
                             .foregroundStyle(Color.safeText)
-                            .frame(maxWidth: .infinity, alignment: .leading)
                             .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
-                    .padding(18)
+                    .padding(20)
                     .background(
                         LinearGradient(
                             colors: [Color.safeAccent.opacity(0.12), Color.safeGradientEnd.opacity(0.08)],
@@ -105,20 +88,19 @@ struct HomeView: View {
                         )
                     )
                     .glassCard(cornerRadius: 20)
-                    .padding(.horizontal, 20)
                     .accessibilityElement(children: .combine)
                     .accessibilityLabel("Today's thought: \(message)")
                     
                     // MARK: - 3 HERO FEATURES
                     
-                    VStack(spacing: 14) {
+                    HStack(spacing: 0) {
                         Text("CORE FEATURES")
                             .font(.system(size: 11, weight: .bold, design: .rounded))
                             .foregroundStyle(Color.safeSubtext)
-                            .tracking(1.5)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal, 24)
-                        
+                        Spacer()
+                    }
+                    
+                    VStack(spacing: 14) {
                         // Hero 1: Practice Scenarios
                         heroCard(
                             icon: "figure.walk",
@@ -146,18 +128,17 @@ struct HomeView: View {
                             destination: AnyView(SafetyMythView())
                         )
                     }
-                    .padding(.horizontal, 20)
                     
                     // MARK: - EXPLORE MORE
                     
-                    VStack(spacing: 14) {
+                    HStack(spacing: 0) {
                         Text("EXPLORE MORE")
                             .font(.system(size: 11, weight: .bold, design: .rounded))
                             .foregroundStyle(Color.safeSubtext)
-                            .tracking(1.5)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal, 24)
-                        
+                        Spacer()
+                    }
+                    
+                    VStack(spacing: 14) {
                         // Row 1
                         HStack(spacing: 12) {
                             miniFeature(icon: "flag.fill", title: "Red or\nGreen Flag", color: Color.safeAccent, destination: AnyView(RedFlagView()))
@@ -179,7 +160,6 @@ struct HomeView: View {
                             miniFeature(icon: "book.fill", title: "My\nReflections", color: Color.safeGradientEnd, destination: AnyView(ReflectionHistoryView()))
                         }
                     }
-                    .padding(.horizontal, 20)
                     
                     // Achievements
                     NavigationLink {
@@ -216,7 +196,6 @@ struct HomeView: View {
                         .glassCard(cornerRadius: 16)
                     }
                     .accessibilityLabel("Achievements, track your badges and milestones")
-                    .padding(.horizontal, 20)
                     
                     // Progress bar
                     NavigationLink {
@@ -253,7 +232,6 @@ struct HomeView: View {
                         .glassCard(cornerRadius: 16)
                     }
                     .accessibilityLabel("My progress, \(progress.totalSessions) sessions completed")
-                    .padding(.horizontal, 20)
                     
                     // About link
                     NavigationLink {
@@ -269,10 +247,28 @@ struct HomeView: View {
                     }
                     .padding(.bottom, 40)
                 }
-                .padding(.top, 10)
-            }
+            .padding(.top, 10)
+            .padding(.horizontal, 20)
         }
-        .navigationBarHidden(true)
+        .scrollClipDisabled(true)
+        .background {
+            ZStack {
+                Color.safeBackground.ignoresSafeArea()
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [Color.safeAccent.opacity(0.08), Color.clear],
+                            center: .center,
+                            startRadius: 50,
+                            endRadius: 300
+                        )
+                    )
+                    .frame(width: 500, height: 500)
+                    .offset(y: -100)
+            }
+            .ignoresSafeArea()
+        }
+        .toolbar(.hidden, for: .navigationBar)
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("refreshAffirmation"))) { _ in
             message = AffirmationEngine.get()
         }

@@ -92,19 +92,6 @@ struct ScenarioSelectionView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 16) {
                     
-                    // Header
-                    VStack(spacing: 6) {
-                        Text("Practice Scenarios")
-                            .font(.system(size: 28, weight: .bold, design: .rounded))
-                            .foregroundStyle(Color.safeText)
-                        
-                        Text("Choose a situation to practice")
-                            .font(.subheadline)
-                            .foregroundStyle(Color.safeSubtext)
-                    }
-                    .padding(.top, 10)
-                    .padding(.bottom, 6)
-                    
                     // Scenario cards with staggered animation
                     ForEach(Array(scenarios.enumerated()), id: \.element.id) { index, scenario in
                         NavigationLink(destination: ScenarioDetailView(scenario: scenario)) {
@@ -124,6 +111,8 @@ struct ScenarioSelectionView: View {
                 .padding(.horizontal, 20)
             }
         }
+        .navigationTitle("Practice Scenarios")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             withAnimation {
                 appeared = true
